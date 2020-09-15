@@ -1,3 +1,12 @@
+
+# Sudoku
+
+## Features
+
+* Client-side puzzle generation for each new game.
+* Three different difficulty levels for the player to choose from.
+* Automatic marking of incorrect inputs
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
