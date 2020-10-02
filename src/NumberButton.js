@@ -1,9 +1,15 @@
 import React from "react";
 
-const NumberButton = ({ number }) => {
+const NumberButton = ({ number, handleNumberButton }) => {
   return (
     <React.Fragment>
-      <button>{number}</button>
+      <button
+        onClick={() => {
+          handleNumberButton(number);
+        }}
+      >
+        {number}
+      </button>
     </React.Fragment>
   );
 };
