@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import generatePuzzle from "./helpers/generate-puzzle";
 import NumberButton from "./NumberButton";
 import "./App.css";
@@ -6,6 +6,38 @@ import "./App.css";
 function App() {
   const [gameBoard, setGameBoard] = useState(generatePuzzle());
   const [isGameWon, setIsGameWon] = useState(false);
+  useEffect(() => {
+    const handleKeypress = (event) => {
+      const key = event.key;
+      console.log(key);
+
+      /*
+      If the key pressed is number key, Backspace, or Delete
+      Then userInputValue at the selected cell is updated
+      */
+      if (
+        key === "Backspace" ||
+        key === "Delete" ||
+        (!isNaN(key) && key !== "0")
+      ) {
+        setGameBoard((prevBoard) => {
+          let updatedBoard = prevBoard.map((row, a) =>
+            row.map((cell, b) => {
+              if (cell.isSelected) {
+                return {
+                  ...cell,
+                  userInputValue:
+                    key === "Backspace" || key === "Delete" ? "" : key
+                };
+              } else return { ...cell };
+            })
+          );
+          return updatedBoard;
+        });
+      }
+    };
+    document.addEventListener("keyup", handleKeypress);
+  }, []);
   const makeSeleted = (i, j) => {
     setGameBoard((prevBoard) => {
       let updatedBoard = prevBoard.map((row, a) =>
