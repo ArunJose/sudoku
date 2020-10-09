@@ -22,7 +22,10 @@ function App() {
   const isGameSolved = (board) => {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
-        if (board[i][j].solutionValue !== board[i][j].userInputValue && !board[i][j].partOfInitialPuzzle) {
+        if (
+          board[i][j].solutionValue !== board[i][j].userInputValue &&
+          !board[i][j].partOfInitialPuzzle
+        ) {
           return false;
         }
       }
@@ -64,10 +67,20 @@ function App() {
                 {gameBoard.map((row, i) => {
                   const tr = row.map((cell, j) => {
                     const classes = cell.isSelected ? `selected` : "";
-                    const cellValue = cell.partOfInitialPuzzle ? cell.solutionValue : cell.userInputValue;
+                    const cellValue = cell.partOfInitialPuzzle
+                      ? cell.solutionValue
+                      : cell.userInputValue;
                     return (
-                      <td key={`${i}-${j}`} className={classes} onClick={() => makeSeleted(i, j)}>
-                        {cell.partOfInitialPuzzle ? <strong>{cellValue}</strong> : cellValue}
+                      <td
+                        key={`${i}-${j}`}
+                        className={classes}
+                        onClick={() => makeSeleted(i, j)}
+                      >
+                        {cell.partOfInitialPuzzle ? (
+                          <strong>{cellValue}</strong>
+                        ) : (
+                          <span>{cellValue}</span>
+                        )}
                       </td>
                     );
                   });
@@ -77,7 +90,11 @@ function App() {
             </table>
             <div className="num-board">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
-                <NumberButton key={number} number={number} handleNumberButton={handleNumberButton} />
+                <NumberButton
+                  key={number}
+                  number={number}
+                  handleNumberButton={handleNumberButton}
+                />
               ))}
             </div>
           </div>

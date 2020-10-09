@@ -1,12 +1,17 @@
-
 .App {
   text-align: center;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+  font-size: 1.5em;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 table {
@@ -16,9 +21,12 @@ table {
 
 td {
   border: 1px solid black;
-  height: 1.3rem;
-  width: 1.3rem;
+  height: 2rem;
+  width: 2rem;
   cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 td:hover {
@@ -41,7 +49,7 @@ tr:nth-child(6) {
 .num-board {
   display: flex;
   justify-content: space-between;
-  margin-top: .2em;;
+  margin-top: 0.2em;
 }
 
 .game-won-message {
@@ -52,3 +60,6 @@ tr:nth-child(6) {
   margin-bottom: 1em;
 }
 
+button {
+  font-size: 1.5rem;
+}
