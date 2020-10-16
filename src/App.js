@@ -35,6 +35,46 @@ function App() {
           return updatedBoard;
         });
       }
+
+      if (
+        key === "ArrowDown" ||
+        key === "ArrowUp" ||
+        key === "ArrowRight" ||
+        key === "ArrowLeft"
+      ) {
+        setGameBoard((prevBoard) => {
+          const findIndexOfSeletedCell = () => {
+            for (let i = 0; i < 9; i++) {
+              for (let j = 0; j < 9; j++) {
+                if (prevBoard[i][j].isSelected) {
+                  return [i, j];
+                }
+              }
+            }
+            return [4, 4];
+          };
+          const [x, y] = findIndexOfSeletedCell();
+          console.log("x=", x, " y=", y);
+          let updatedBoard = prevBoard.map((row, a) =>
+            row.map((cell, b) => {
+              if (a === x && b === y) {
+                return {
+                  ...cell,
+                  isSelected: false
+                };
+              } else if (
+                (a === x + 1 && b === y && key === "ArrowDown") ||
+                (a === x - 1 && b === y && key === "ArrowUp") ||
+                (a === x && b === y + 1 && key === "ArrowRight") ||
+                (a === x && b === y - 1 && key === "ArrowLeft")
+              ) {
+                return { ...cell, isSelected: true };
+              } else return { ...cell };
+            })
+          );
+          return updatedBoard;
+        });
+      }
     };
     document.addEventListener("keyup", handleKeypress);
   }, []);
