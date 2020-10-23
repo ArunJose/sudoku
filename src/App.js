@@ -6,6 +6,23 @@ import "./App.css";
 function App() {
   const [gameBoard, setGameBoard] = useState(generatePuzzle());
   const [isGameWon, setIsGameWon] = useState(false);
+  function findIndexOfSeletedCell() {
+    let x, y;
+    let isFound = false;
+    setGameBoard((prevBoard) => {
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (prevBoard[i][j].isSelected) {
+            x = i;
+            y = j;
+            isFound = true;
+          }
+        }
+      }
+      return prevBoard;
+    });
+    return isFound ? [x, y] : [4, 4];
+  }
   useEffect(() => {
     const handleKeypress = (event) => {
       const key = event.key;
@@ -42,38 +59,22 @@ function App() {
         key === "ArrowRight" ||
         key === "ArrowLeft"
       ) {
-        setGameBoard((prevBoard) => {
-          const findIndexOfSeletedCell = () => {
-            for (let i = 0; i < 9; i++) {
-              for (let j = 0; j < 9; j++) {
-                if (prevBoard[i][j].isSelected) {
-                  return [i, j];
-                }
-              }
-            }
-            return [4, 4];
-          };
-          const [x, y] = findIndexOfSeletedCell();
-          console.log("x=", x, " y=", y);
-          let updatedBoard = prevBoard.map((row, a) =>
-            row.map((cell, b) => {
-              if (a === x && b === y) {
-                return {
-                  ...cell,
-                  isSelected: false
-                };
-              } else if (
-                (a === x + 1 && b === y && key === "ArrowDown") ||
-                (a === x - 1 && b === y && key === "ArrowUp") ||
-                (a === x && b === y + 1 && key === "ArrowRight") ||
-                (a === x && b === y - 1 && key === "ArrowLeft")
-              ) {
-                return { ...cell, isSelected: true };
-              } else return { ...cell };
-            })
-          );
-          return updatedBoard;
-        });
+        const [x, y] = findIndexOfSeletedCell();
+        let newX = x,
+          newY = y;
+        if (key === "ArrowDown") {
+          newX = x + 1;
+        } else if (key === "ArrowUp") {
+          newX = x - 1;
+        } else if (key === "ArrowRight") {
+          newY = y + 1;
+        } else if (key === "ArrowLeft") {
+          newY = y - 1;
+        }
+        if (newX < 9 && newX >= 0 && newY < 9 && newY >= 0) {
+          updateSelected(x, y, false);
+          updateSelected(newX, newY, true);
+        }
       }
     };
     document.addEventListener("keyup", handleKeypress);
@@ -83,6 +84,17 @@ function App() {
       let updatedBoard = prevBoard.map((row, a) =>
         row.map((cell, b) => {
           return { ...cell, isSelected: a === i && b === j ? true : false };
+        })
+      );
+      return updatedBoard;
+    });
+  };
+  const updateSelected = (i, j, value) => {
+    setGameBoard((prevBoard) => {
+      let updatedBoard = prevBoard.map((row, a) =>
+        row.map((cell, b) => {
+          if (a === i && b === j) return { ...cell, isSelected: value };
+          else return { ...cell };
         })
       );
       return updatedBoard;
